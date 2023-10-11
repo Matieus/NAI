@@ -7,8 +7,6 @@
 Execute the below command to create virtual environment
 - ``` python -m venv venv ```
 
-Then active environment:![2023-10-11_20-42-09](https://github.com/Matieus/connect_four/assets/76398414/d168cfc5-55a5-4b57-83ae-98c8b061cbe4)
-
 
 for windows:
 - ```source venv/Scrips/activate```
@@ -39,4 +37,4 @@ Remember that the movement selection range is from 1 to 7.
 The bot level that can be set is from 1 to 7.
 Have fun!
 
-![simplescreenrecorder-2023-10-10_21 15 08](https://github.com/s23047-jz/connect_four/assets/73025973/af63c7de-b420-44e8-a704-94a4e0d423c2)
+![2023-10-11_20-42-09](https://github.com/Matieus/connect_four/assets/76398414/d168cfc5-55a5-4b57-83ae-98c8b061cbe4)

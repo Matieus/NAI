@@ -1,7 +1,7 @@
 """
 Authors:
     Jakub Żurawski: https://github.com/s23047-jz/connect_four
-    Mateusz Olstowski
+    Mateusz Olstowski: https://github.com/Matieus/connect_four
 
 -------------------------------
 

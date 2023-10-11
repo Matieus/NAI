@@ -19,6 +19,7 @@ class Game(TwoPlayerGame):
         -------
             array: list - List of list with strings
         """
+
         return np.zeros((self.__rows, self.__cols), dtype=str)
 
     def _pos_dir(self):
@@ -29,15 +30,19 @@ class Game(TwoPlayerGame):
         -------
             array: list - list of positions with a possibly found streak
         """
-        # TODO try find another way
-        return np.array(
-            [[[i, 0], [0, 1]] for i in range(6)]
-            + [[[0, i], [1, 0]] for i in range(7)]
-            + [[[i, 0], [1, 1]] for i in range(1, 3)]
-            + [[[0, i], [1, 1]] for i in range(4)]
-            + [[[i, 6], [1, -1]] for i in range(1, 3)]
-            + [[[0, i], [1, -1]] for i in range(3, 7)]
-        )
+        directions = [
+            [0, 1],  # horizontal
+            [1, 0],  # vertical
+            [1, 1],  # diagonal /
+            [1, -1],  # diagonal \
+        ]
+        positions = []
+        for i in range(self.__rows):
+            for j in range(self.__cols):
+                for direction in directions:
+                    positions.append([[i, j], direction])
+
+        return np.array(positions)
 
     def _find_four(self):
         """
@@ -132,7 +137,7 @@ class Game(TwoPlayerGame):
         print(
             "\n".join(
                 [
-                    " ".join([str(x) for x in range(1, self.__cols + 2)]),
+                    " ".join([str(x) for x in range(1, self.__cols + 1)]),
                     (2 * self.__cols + 1) * "-",
                 ]
                 + [

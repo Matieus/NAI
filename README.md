@@ -7,7 +7,8 @@
 Execute the below command to create virtual environment
 - ``` python -m venv venv ```
 
-Then active environment:
+Then active environment:![2023-10-11_20-42-09](https://github.com/Matieus/connect_four/assets/76398414/d168cfc5-55a5-4b57-83ae-98c8b061cbe4)
+
 
 for windows:
 - ```source venv/Scrips/activate```

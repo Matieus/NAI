@@ -19,7 +19,7 @@ Use makefile
 - ```make install_requirements```
 
 or classic
-- ```pip install -r ./requirements```
+- ```pip install -r ./requirements.txt```
 -----------------------------------------------------------------
 #### Run app
 Use makefile

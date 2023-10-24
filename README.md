@@ -1,4 +1,6 @@
-# Connect four the game
+# Air pollution with fuzzy logic
+
+used API: [Powietrze_Gios](https://powietrze.gios.gov.pl/pjp/current#)
 
 ## Setup
 
@@ -7,9 +9,10 @@
 Execute the below command to create virtual environment
 - ``` python -m venv venv ```
 
+Then active environment:
 
 for windows:
-- ```source venv/Scrips/activate```
+- ```source venv/Scripts/activate```
 
 for unix:
 - ```source venv/bin/activate```
@@ -29,12 +32,9 @@ or classic
 - ```python main.py```
 
 -----------------------------------------------------------------
-#### Play
-You can find the rules online. At the beginning, 
-the program asked if we wanted to play or if we wanted 
-to watch the duel between the two ai's. Follow the instructions.
-Remember that the movement selection range is from 1 to 7.
-The bot level that can be set is from 1 to 7.
-Have fun!
 
-![2023-10-11_20-42-09](https://github.com/Matieus/connect_four/assets/76398414/d168cfc5-55a5-4b57-83ae-98c8b061cbe4)
+![image](https://github.com/s23047-jz/NAI/assets/73025973/ee3fce27-1894-43a0-ac3b-57a209767065)
+![image](https://github.com/s23047-jz/NAI/assets/73025973/57e845ae-1f99-47ff-8e3e-65cf09dabd25)
+![image](https://github.com/s23047-jz/NAI/assets/73025973/f4d38598-9d0f-434d-8e05-005afaa3bc6f)
+![image](https://github.com/s23047-jz/NAI/assets/73025973/bdbb4ee6-6dbc-401c-ab30-2902972bd4c6)
+![image](https://github.com/s23047-jz/NAI/assets/73025973/d0e3105c-0019-4e09-8883-bee3a8e6f9d9)

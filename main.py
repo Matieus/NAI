@@ -1,6 +1,6 @@
 """
 Authors:
-    Jakub Żurawski: https://github.com/s23047-jz/NAI/tree/air-pollution
+    Jakub Żurawski: https://github.com/s23047-jz/NAI/
     Mateusz Olstowski: https://github.com/Matieus/NAI/tree/air-pollution
 
 used api: https://powietrze.gios.gov.pl/pjp/current#
@@ -27,11 +27,11 @@ def main():
     # city = City()
     # city.initialise(create_dict_for_city(
     #     name="Test",
-    #     pm10=1.0,
-    #     pm25=1.0,
-    #     o3=1.0,
-    #     no2=1.0,
-    #     so2=1.0
+    #     pm10=47.00,
+    #     pm25=45.0,
+    #     o3=0.1,
+    #     no2=0.1,
+    #     so2=0.1
     # ))
     city.show()
     city_air_pollution = CityAirQuality(city=city)

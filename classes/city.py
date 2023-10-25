@@ -15,7 +15,7 @@ def create_dict_for_city(
 	o3: float,
 	no2: float,
 	so2: float
-):
+) -> dict:
 	"""
 	Parameters
 	----------
@@ -43,7 +43,8 @@ class City:
 	get_data_from_api: bool - should get data from api or not
 	city_index: int - index of the city in the array, needed only if get_data_from_api is true
 	name: str - name of the city
-	pm10, pm25, o3, no2, so2: float - air particles mixture, cannot be set to 0 because the algorithm has set errors
+	pm10, pm25, o3, no2, so2: float - air particles mixture, cannot be set to 0.0 because the algorithm has set errors
+																						of 0 or empty value
 	"""
 	def __init__(self, get_data_from_api: bool = False, city_index: int = 1):
 		self.__get_data_from_api = get_data_from_api
@@ -58,7 +59,7 @@ class City:
 	def _set_city_value(
 		self,
 		key: str,
-		value: float
+		value: [float, str]
 	):
 		"""
 		Sets new values for the city
@@ -66,7 +67,7 @@ class City:
 		Parameters
 		----------
 		key: str - attribute name
-		value: float - attribute value
+		value: float, str - attribute value
 		"""
 		setattr(self, key, value)
 
@@ -94,9 +95,8 @@ class City:
 			if not index:
 				index = self.__city_index
 			city = data[index]
-			self.__name = city['city']['name']
-
-			print(f"Testing for {self.__name}")
+			self._set_city_value('name', city['city']['name'])
+			print(f"Testing for {self.name}")
 
 			self._get_city_data(city['id'])
 
@@ -135,6 +135,7 @@ class City:
 				f"{GIOS_ENDPOINTS['air_particles']}/{id}"
 			)
 			data = r.json()
+			print('data', data)
 			latest_value = data['values'][0]['value']
 			if latest_value is None:
 				index = 1
@@ -168,7 +169,7 @@ class City:
 		for city_key in city_keys:
 			if city_key in dict_of_values.keys():
 				if city_key == 'name':
-					self.__name = dict_of_values['name']
+					self.name = dict_of_values['name']
 				else:
 					self._set_city_value(
 						key=city_key, value=float(dict_of_values[city_key])
@@ -189,7 +190,7 @@ class City:
 		else:
 			print("Nothing happened")
 
-	def to_dict(self):
+	def to_dict(self) -> dict:
 
 		"""
 		Returns city as a dict

@@ -12,7 +12,7 @@ air_pollution_dict = {
         "moderate": [50, 65, 80],
         "sufficient": [80, 95, 110],
         "bad": [110, 130, 150],
-        "very bad": [150, 150, 600]
+        "very bad": [150, 150, 600],
     },
     "pm25": {
         "very good": [0, 6.5, 13],
@@ -20,7 +20,7 @@ air_pollution_dict = {
         "moderate": [35, 45, 55],
         "sufficient": [55, 65, 75],
         "bad": [75, 92.5, 110],
-        "very bad": [110, 110, 600]
+        "very bad": [110, 110, 600],
     },
     "o3": {
         "very good": [0, 35, 70],
@@ -29,7 +29,7 @@ air_pollution_dict = {
         "sufficient": [150, 165, 180],
         "bad": [180, 210, 240],
         "very bad": [240, 240, 600],
-        "index": 0
+        "index": 0,
     },
     "no2": {
         "very good": [0, 20, 40],
@@ -38,7 +38,7 @@ air_pollution_dict = {
         "sufficient": [150, 190, 230],
         "bad": [230, 315, 400],
         "very bad": [400, 400, 600],
-        "index": 1
+        "index": 1,
     },
     "so2": {
         "very good": [0, 25, 50],
@@ -46,8 +46,8 @@ air_pollution_dict = {
         "moderate": [100, 150, 200],
         "sufficient": [200, 275, 350],
         "bad": [350, 425, 500],
-        "very bad": [500, 500, 600]
-    }
+        "very bad": [500, 500, 600],
+    },
 }
 
 
@@ -60,7 +60,6 @@ class CityAirQuality:
     Variables
     ---------
     antecedents: dict - Dict of antecedents for each air particle
-    consequent_dict: dict - Dict of consequent for each air particle
     mixture_of_air_particles: dict - Dict of air particle compartments
     air_quality_levels: array - Array of air quality levels
     air_quality_levels_range: list - List of ranges for each air quality level
@@ -70,13 +69,12 @@ class CityAirQuality:
     def __init__(self, city: City):
         self.__city = city
         self.__antecedents = {}
-        self.__consequent_dict = {}
         self.__mixture_of_air_particles = {
             "pm10": [0, 250],
             "pm25": [0, 200],
             "o3": [0, 340],
             "no2": [0, 500],
-            "so2": [0, 600]
+            "so2": [0, 600],
         }
         self.__air_quality_levels_range = [
             [0, 50, 100],
@@ -84,12 +82,17 @@ class CityAirQuality:
             [200, 250, 300],
             [300, 350, 400],
             [400, 450, 500],
-            [500, 550, 600]
+            [500, 550, 600],
         ]
         self.__air_quality_levels = [
-            "very good", "good", "moderate", "sufficient", "bad", "very bad"
+            "very good",
+            "good",
+            "moderate",
+            "sufficient",
+            "bad",
+            "very bad",
         ]
-        self.__air_quality = ctrl.Consequent(np.arange(0, 601, 1), 'air_quality')
+        self.__air_quality = ctrl.Consequent(np.arange(0, 601, 1), "air_quality")
         self.initialise()
 
     def _create_antecedent(self, param_name: str, universe_range: np.arange):
@@ -110,7 +113,9 @@ class CityAirQuality:
         """
 
         for param_name, range_values in self.__mixture_of_air_particles.items():
-            self._create_antecedent(param_name, np.arange(range_values[0], range_values[1] + 1, 1))
+            self._create_antecedent(
+                param_name, np.arange(range_values[0], range_values[1] + 1, 1)
+            )
 
         for key in self.__mixture_of_air_particles.keys():
             for aql in self.__air_quality_levels:
@@ -131,7 +136,9 @@ class CityAirQuality:
         level: string - city air quality result
         """
 
-        for (low, mid, high), level in zip(self.__air_quality_levels_range, self.__air_quality_levels):
+        for (low, mid, high), level in zip(
+            self.__air_quality_levels_range, self.__air_quality_levels
+        ):
             if low < result and high >= result:
                 return level
 
@@ -139,25 +146,27 @@ class CityAirQuality:
         """
         Creates range for air quality for each air quality level
         """
-        for param, level in zip(self.__air_quality_levels_range, self.__air_quality_levels):
+        for param, level in zip(
+            self.__air_quality_levels_range, self.__air_quality_levels
+        ):
             self.__air_quality[level] = fuzz.trimf(self.__air_quality.universe, param)
 
     def _get_particles_from_quality_with_or(self, quality: str):
         return (
-                self.__antecedents['pm10'][quality] |
-                self.__antecedents['pm25'][quality] |
-                self.__antecedents['o3'][quality] |
-                self.__antecedents['no2'][quality] |
-                self.__antecedents['so2'][quality]
+            self.__antecedents["pm10"][quality]
+            | self.__antecedents["pm25"][quality]
+            | self.__antecedents["o3"][quality]
+            | self.__antecedents["no2"][quality]
+            | self.__antecedents["so2"][quality]
         )
 
     def _get_particles_from_quality_with_and(self, quality: str):
         return (
-                self.__antecedents['pm10'][quality] &
-                self.__antecedents['pm25'][quality] &
-                self.__antecedents['o3'][quality] &
-                self.__antecedents['no2'][quality] &
-                self.__antecedents['so2'][quality]
+            self.__antecedents["pm10"][quality]
+            & self.__antecedents["pm25"][quality]
+            & self.__antecedents["o3"][quality]
+            & self.__antecedents["no2"][quality]
+            & self.__antecedents["so2"][quality]
         )
 
     def _evaluate_air_quality(self):
@@ -169,12 +178,20 @@ class CityAirQuality:
 
         rules = []
         for aql in self.__air_quality_levels:
-            if aql == 'very good':
+            if aql == "very good":
                 rules.append(
-                    ctrl.Rule(self._get_particles_from_quality_with_and(aql), self.__air_quality[aql])
+                    ctrl.Rule(
+                        self._get_particles_from_quality_with_and(aql),
+                        self.__air_quality[aql],
+                    )
                 )
             else:
-                rules.append(ctrl.Rule(self._get_particles_from_quality_with_or(aql), self.__air_quality[aql]))
+                rules.append(
+                    ctrl.Rule(
+                        self._get_particles_from_quality_with_or(aql),
+                        self.__air_quality[aql],
+                    )
+                )
 
         result_ctrl = ctrl.ControlSystem(rules)
         result = ctrl.ControlSystemSimulation(result_ctrl)
@@ -184,7 +201,7 @@ class CityAirQuality:
         result.compute()
         self.__air_quality.view(sim=result)
 
-        air_quality = self._get_air_quality(result.output['air_quality'])
+        air_quality = self._get_air_quality(result.output["air_quality"])
         print(f"result: {result.output['air_quality']}")
         print(f"{self.__city.name} has '{air_quality}' air quality")
 
@@ -202,5 +219,4 @@ class CityAirQuality:
         Initialise fuzzy logic and check air quality for the city
         """
         self._setup()
-        self.show()
         self._evaluate_air_quality()

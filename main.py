@@ -22,7 +22,7 @@ from classes.city import City, create_dict_for_city
 
 
 def main():
-    city = City(get_data_from_api=True, city_index=0)
+    city = City(get_data_from_api=True, city_index=69)
     city.initialise()
     # city = City()
     # city.initialise(create_dict_for_city(

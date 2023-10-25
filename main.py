@@ -1,7 +1,7 @@
 """
 Authors:
     Jakub Żurawski: https://github.com/s23047-jz/NAI/
-    Mateusz Olstowski: https://github.com/Matieus/NAI/tree/air-pollution
+    Mateusz Olstowski: https://github.com/Matieus/NAI/
 
 used api: https://powietrze.gios.gov.pl/pjp/current#
 

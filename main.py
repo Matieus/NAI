@@ -1,41 +1,45 @@
 """
 Authors:
     Jakub Żurawski: https://github.com/s23047-jz/NAI/
-    Mateusz Olstowski: https://github.com/Matieus/NAI/
 
-used api: https://powietrze.gios.gov.pl/pjp/current#
-
-Conclusions:
-(Jakub)
-    The first problem I encountered was that air molecules cannot have a value of 0.0.
-    Must be at least 0.1, otherwise the algorithm sets errors.
-
-    Unfortunately the API was not conducive to the topic of fuzzy logic.
-    You need to make a result for each air particle and then check the air quality.
-
-    The worst idea, but still accepted, was to create rules for every possible scheme.
-    But I decided to do it in another way
+    Select the name of one of the users from movie_data and pass it to the MovieEngine class. That's all.
 """
+import os
+import json
+import pandas as pd
 
-from classes.air_pollution import CityAirQuality
-from classes.city import City, create_dict_for_city
+from classes.movie_engine import MovieEngine
+
+
+def convert_excel_data_to_json():
+    """
+    Reads data from excel file and save them as json file.
+    """
+    data_path = os.path.join('data')
+    excel_data = pd.read_excel(os.path.join(data_path, 'movie_data.xlsx'), header=None)
+
+    data_dict = {}
+    for row in excel_data.itertuples(index=False, name=None):
+        name = row[0]
+        movies_dict = dict()
+        for i in range(1, len(row), 2):
+            movie_name = row[i]
+            score = row[i + 1]
+
+            if pd.notna(movie_name) and pd.notna(score):
+                movies_dict[movie_name] = score
+        data_dict[name] = movies_dict
+
+
+    with open(os.path.join(data_path, "movie_data.json"), "w", encoding="utf-8") as json_file:
+        json.dump(data_dict, json_file, ensure_ascii=False, indent=2)
 
 
 def main():
-    city = City(get_data_from_api=True, city_index=69)
-    city.initialise()
-    # city = City()
-    # city.initialise(create_dict_for_city(
-    #     name="Test",
-    #     pm10=47.00,
-    #     pm25=45.0,
-    #     o3=0.1,
-    #     no2=0.1,
-    #     so2=0.1
-    # ))
-    city.show()
-    city_air_pollution = CityAirQuality(city=city)
-    city_air_pollution.show()
+    # convert_excel_data_to_json()
+    # movie_engine = MovieEngine("Paweł Czapiewski", 5, 5, "euclidean")
+    movie_engine = MovieEngine("Daniel Klimowski", 5, 5, "euclidean")
+    movie_engine.init()
 
 
 if __name__ == "__main__":

@@ -5,11 +5,11 @@ import numpy as np
 
 class MovieEngine:
     def __init__(
-            self,
-            user_fullname: str,
-            movie_rec_number: int,
-            neighbors_number: int,
-            metric_method: str = "pearson"
+        self,
+        user_fullname: str,
+        movie_rec_number: int,
+        neighbors_number: int,
+        metric_method: str = "pearson",
     ):
         """
         Parameters
@@ -26,7 +26,7 @@ class MovieEngine:
         self.__data = self._read_json() or []
         self.__functions = {
             "pearson": self._pearson_score,
-            "euclidean": self._euclidean_distance
+            "euclidean": self._euclidean_distance,
         }
 
     def _read_json(self):
@@ -38,7 +38,7 @@ class MovieEngine:
         data: dict - Dict of data
         """
         here = os.getcwd()
-        json_data = os.path.join(here, 'data', 'movie_data.json')
+        json_data = os.path.join(here, "data", "movie_data.json")
 
         if not os.path.exists(json_data):
             raise Exception("The json data not exists")
@@ -73,18 +73,30 @@ class MovieEngine:
         if num_ratings == 0:
             return 0
 
-        selected_user_sum = np.sum([self.__data[self.__user_fullname][item] for item in common_movies.keys()])
-        neighbor_sum = np.sum([self.__data[neighbor][item] for item in common_movies.keys()])
+        selected_user_sum = np.sum(
+            [self.__data[self.__user_fullname][item] for item in common_movies.keys()]
+        )
+        neighbor_sum = np.sum(
+            [self.__data[neighbor][item] for item in common_movies.keys()]
+        )
 
         selected_user_sqr_sum = np.sum(
-            [np.square(self.__data[self.__user_fullname][item]) for item in common_movies.keys()]
+            [
+                np.square(self.__data[self.__user_fullname][item])
+                for item in common_movies.keys()
+            ]
         )
-        neighbor_sqr_sum = np.sum([np.square(self.__data[neighbor][item]) for item in common_movies.keys()])
+        neighbor_sqr_sum = np.sum(
+            [np.square(self.__data[neighbor][item]) for item in common_movies.keys()]
+        )
 
-        sum_of_products = np.sum([
-            self.__data[self.__user_fullname][item] * self.__data[self.__user_fullname][item]
-            for item in common_movies.keys()
-        ])
+        sum_of_products = np.sum(
+            [
+                self.__data[self.__user_fullname][item]
+                * self.__data[self.__user_fullname][item]
+                for item in common_movies.keys()
+            ]
+        )
 
         Sxy = sum_of_products - (selected_user_sum * neighbor_sum / num_ratings)
         Sxx = selected_user_sqr_sum - np.square(selected_user_sum) / num_ratings
@@ -120,10 +132,15 @@ class MovieEngine:
         if not common_movies:
             return 0
 
-        distances = np.array([
-            np.square(self.__data[self.__user_fullname][item] - self.__data[neighbor][item])
-            for item in common_movies.keys()
-        ])
+        distances = np.array(
+            [
+                np.square(
+                    self.__data[self.__user_fullname][item]
+                    - self.__data[neighbor][item]
+                )
+                for item in common_movies.keys()
+            ]
+        )
 
         euclidean_distance = np.sqrt(np.sum(distances))
         return 1 / (1 + euclidean_distance)
@@ -135,21 +152,21 @@ class MovieEngine:
         num_users = len(self.__data.keys())
         if self.__user_fullname not in self.__data.keys():
             raise Exception(f"Cannot find {self.__user_fullname} in the data")
-        scores = np.array([
-            [user, self.__functions[self.__metric_method](user)]
-            for user in self.__data.keys()
-            if user != self.__user_fullname
-        ])
+        scores = np.array(
+            [
+                [user, self.__functions[self.__metric_method](user)]
+                for user in self.__data.keys()
+                if user != self.__user_fullname
+            ]
+        )
         scores_sorted = np.argsort(scores[:, 1])[::-1]
         top_users = scores_sorted[:num_users]
 
-        similar_users = [
-            scores[n] for n in top_users
-        ]
+        similar_users = [scores[n] for n in top_users]
         self.__cor_users = [u[0] for u in similar_users]
         print("\nCorr result\n", similar_users)
-        self.__cor_users = self.__cor_users[:self.__neighbors_number]
-        print('\nChosen best 5 neighbors', self.__cor_users)
+        self.__cor_users = self.__cor_users[: self.__neighbors_number]
+        print("\nChosen best 5 neighbors", self.__cor_users)
 
     def _get_recommendations(self):
         """
@@ -170,21 +187,35 @@ class MovieEngine:
             similarity_score = self.__functions[self.__metric_method](user)
 
             filtered_list = [
-                x for x in self.__data[user].keys()
-                if x not in self.__data[self.__user_fullname].keys() or self.__data[self.__user_fullname][x] == 0
+                x
+                for x in self.__data[user].keys()
+                if x not in self.__data[self.__user_fullname].keys()
+                or self.__data[self.__user_fullname][x] == 0
             ]
 
             for item in filtered_list:
-                overall_scores[item] = overall_scores.get(item, 0) + self.__data[user][item] * similarity_score
-                similarity_scores[item] = similarity_scores.get(item, 0) + similarity_score
+                overall_scores[item] = (
+                    overall_scores.get(item, 0)
+                    + self.__data[user][item] * similarity_score
+                )
+                similarity_scores[item] = (
+                    similarity_scores.get(item, 0) + similarity_score
+                )
 
         if not overall_scores:
             return [], []
 
-        movie_scores = np.array([
-            [overall_score / similarity_scores[item] if similarity_scores[item] != 0 else 0, item]
-            for item, overall_score in overall_scores.items()
-        ])
+        movie_scores = np.array(
+            [
+                [
+                    overall_score / similarity_scores[item]
+                    if similarity_scores[item] != 0
+                    else 0,
+                    item,
+                ]
+                for item, overall_score in overall_scores.items()
+            ]
+        )
 
         movie_scores = movie_scores[np.argsort(movie_scores[:, 0].astype(float))[::-1]]
         movie_recommendations = [movie for _, movie in movie_scores]
@@ -192,9 +223,12 @@ class MovieEngine:
         movie_scores = movie_scores[np.argsort(movie_scores[:, 0].astype(float))]
         not_recommended_movies = [movie for _, movie in movie_scores]
 
-        return movie_recommendations[:self.__movie_rec_number], not_recommended_movies[:self.__movie_rec_number]
+        return (
+            movie_recommendations[: self.__movie_rec_number],
+            not_recommended_movies[: self.__movie_rec_number],
+        )
 
-    def init(self):
+    def recommendations(self):
         """
         Inits finds similar users and get recommendations
         """

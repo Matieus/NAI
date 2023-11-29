@@ -21,7 +21,7 @@ class TrainTestData:
 
 def banknote_data(*, test_size: float = 0.25) -> TrainTestData:
     banknote = np.genfromtxt(
-        r"banknote/data/banknote.txt",
+        r"data/banknote.txt",
         delimiter=",",
         dtype=str,
     )

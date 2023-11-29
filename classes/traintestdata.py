@@ -20,6 +20,16 @@ class TrainTestData:
 
 
 def banknote_data(*, test_size: float = 0.25) -> TrainTestData:
+    """Downloads data from a file and prepares it for training
+
+    Parameters:
+    test_size (float): size of the testing set
+
+    Returns:
+    TrainTestData:returns prepared data
+
+    """
+
     banknote = np.genfromtxt(
         r"data/banknote.txt",
         delimiter=",",
@@ -36,6 +46,15 @@ def banknote_data(*, test_size: float = 0.25) -> TrainTestData:
 
 
 def letters_data(*, test_size: float = 0.25) -> TrainTestData:
+    """Downloads data from a file and prepares it for training
+
+    Parameters:
+    test_size (float): size of the testing set
+
+    Returns:
+    TrainTestData:returns prepared data
+
+    """
     letters = np.genfromtxt(
         r"data/letter-recognition.data",
         delimiter=",",

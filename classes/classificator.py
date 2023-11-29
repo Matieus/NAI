@@ -55,7 +55,7 @@ class Classificator:
             self.data.X_test
         )
 
-    def tranning(self):
+    def traning(self):
         """Printing report showing the main classification metrics
         for tranning decision tree"""
         print(
@@ -79,7 +79,7 @@ class Classificator:
             sep="\n",
         )
 
-    def svm_tranning(self):
+    def svm_traning(self):
         """Printing report showing the main classification metrics
         for tranning SVM"""
         print(

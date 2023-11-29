@@ -60,16 +60,17 @@ def main():
     bnk = Classificator(
         name="Banknote Recognition",
         data=banknote_data(),
+        max_depth=3,
     )
-    bnk.tranning()
     bnk.testing()
+    bnk.svm_testing()
 
     ltr = Classificator(
         name="Letters Recognition",
         data=letters_data(),
     )
-    ltr.tranning()
     ltr.testing()
+    ltr.svm_testing()
 
 
 if __name__ == "__main__":

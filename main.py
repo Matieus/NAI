@@ -30,16 +30,23 @@ A sample of the first 5 rows is listed below.
 """
 
 from classes.classificator import Classificator
-from classes.traintestdata import banknote_data
+from classes.traintestdata import banknote_data, letters_data
 
 
 def main():
     bnk = Classificator(
-        name="Banknote",
+        name="Banknote Recognition",
         data=banknote_data(),
     )
     bnk.tranning()
     bnk.testing()
+
+    ltr = Classificator(
+        name="Letters Recognition",
+        data=letters_data(),
+    )
+    ltr.tranning()
+    ltr.testing()
 
 
 if __name__ == "__main__":

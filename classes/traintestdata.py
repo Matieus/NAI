@@ -33,3 +33,20 @@ def banknote_data(*, test_size: float = 0.25) -> TrainTestData:
         *train_test_split(banknote_X, banknote_y, test_size=test_size),
     )
     return data
+
+
+def letters_data(*, test_size: float = 0.25) -> TrainTestData:
+    letters = np.genfromtxt(
+        r"data/letter-recognition.data",
+        delimiter=",",
+        dtype=str,
+    )
+
+    letters_X = letters[:, 1:].astype(float)
+
+    letters_y = letters[:, 0]
+
+    data = TrainTestData(
+        *train_test_split(letters_X, letters_y, test_size=test_size),
+    )
+    return data

@@ -1,5 +1,4 @@
-# Movie recommendation engine
-
+# Data Classificator
 ## Setup
 
 -----------------------------------------------------------------

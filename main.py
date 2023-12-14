@@ -121,6 +121,23 @@ class NeuralNetwork:
             get_evaluate_model,
             show_diagrams=True
     ):
+        """
+        Evaluate the model
+
+        Parameters
+        ----------
+        x_train: dataframe / np.ndarray - X of training data
+        y_train: array / np.array - Y of training data
+        x_test: dataframe / np.ndarray - X of test data
+        y_test: array / np.array - Y of test data
+        save_config: bool - Should save current model configuration to excel file
+        get_evaluate_model: bool - Should return model evaluation score
+        get_evaluate_modelshow_diagrams: bool - Should show diagrams of model evaluation
+
+        Returns
+        -------
+        loss: float - Model evaluation loss score if get_evaluate_model is True
+        """
         history = self.model.fit(
             x_train,
             y_train,
@@ -182,13 +199,13 @@ class Data:
 
     def __get_data(self):
         """
-        Returns data for training, validation and test sets
+        Returns tensorflow datasets
         """
         return fashion_mnist.load_data()
 
     def __tensor_dataset(self):
         """
-        Reads data from tensforflow datasets and converts it to training, validation and test sets
+        Reads data from tensorflow datasets and converts it to training, validation and test sets
         """
         (train_images, train_labels), (test_images, test_labels) = self.__get_data()
 

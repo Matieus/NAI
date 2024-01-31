@@ -1,0 +1,8 @@
+__pycache__
+*.zip
+.vscode/
+*.pyc
+token.txt
+zeta_ideas/
+.env
+env/

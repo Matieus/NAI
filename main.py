@@ -1,3 +1,10 @@
+"""
+Authors:
+    Jakub Żurawski: https://github.com/s23047-jz/NAI/
+    Mateusz Olstowski: https://github.com/Matieus/NAI/
+
+"""
+
 import gym
 
 
